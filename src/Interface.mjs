@@ -12,6 +12,7 @@ export function Inicio (){
     animate();
     eixoPositivoX();
     eixoPositivoY();
+    cubosAmarelos (0,0,1);
 
 }
 
@@ -105,4 +106,17 @@ function eixoPositivoY( ){
     const line = new THREE.Line( geometry, material );
     scene.add( line );
     renderer.render( scene, camera );
+}
+function cubosAmarelos (x,y,z){
+    const geometry = new THREE.BoxGeometry( 5, 5, 5/4 );
+    const material = new THREE.MeshBasicMaterial( {
+        color: 0xE9E207,
+        opacity: 0.5
+    } );
+    const cube = new THREE.Mesh( geometry, material );
+    scene.add( cube );
+    cube.position.x=x;
+    cube.position.y=y;
+    cube.position.z=z;
+    cubo.name = "PixelAmarelo";
 }
