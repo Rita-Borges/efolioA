@@ -5,8 +5,8 @@ export function lineMP ( pontoA, pontoB){
         let y1 = pontoB[1];
         let simetrico = false;                      //Variavel auxiliar para verificar se existiu trocas de valores
         let declive = false;                        //dos pontos devido a estarem noutro octante que não o padrão
-        let dx = x0 - x0;                           //DeltaX
-        let dy = y0 - y0;                           //DeltaY
+        let dx = x1 - x0;                           //DeltaX
+        let dy = y1 - y0;                           //DeltaY
         let m = dx * dy;                            //Declive da reta
         if(m < 0){                                  //Verifica se declive é negativo
             simetrico = true;                       //Se for negativo atualiza valor de simetrico
