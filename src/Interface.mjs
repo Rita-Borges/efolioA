@@ -37,23 +37,19 @@ function setup() {
     renderer.name = "setup";
     renderer.setSize(window.innerWidth, window.innerHeight);
     document.body.appendChild(renderer.domElement);
-
     const light = new THREE.AmbientLight(0x404040); // soft white light
     light.name = "setup";
     scene.add(light);
-
     camera.position.x = 0;
     camera.position.y = 0;
     camera.position.z = 120;
     camera.name = "setup";
-
     controls = new OrbitControls(camera, renderer.domElement);
     controls.enableZoom = true;
     controls.autoRotate = false;
-
     raycaster = new THREE.Raycaster()
 }
-// Responsavel pel< atualização dos controlos e renderização da cena em um loop de animação.
+// Responsavel pela atualização dos controlos e renderização da cena em um loop de animação.
 function animate() {
     controls.update();
     requestAnimationFrame(animate);
@@ -93,33 +89,28 @@ function planos() {
         }
     }
 }
-//criação de uma linha azul representando o eixo X
+
+// criação de uma linha azul representando o eixo X
 function eixoPositivoX() {
-    //create a blue LineBasicMaterial
-    const material = new THREE.LineBasicMaterial({color: 0x242291});
-    const points = [];
-    points.push(new THREE.Vector3(0, 0, 1));
-    points.push(new THREE.Vector3(107, 0, 1));
+    const material = new THREE.LineBasicMaterial({ color: 0x242291 });
+    const points = [new THREE.Vector3(0, 0, 1), new THREE.Vector3(107, 0, 1)];
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const line = new THREE.Line(geometry, material);
-    line.name = "eixoX"
+    line.name = "eixoX";
     scene.add(line);
-    renderer.render(scene, camera);
-
 }
-//criação de uma linha vermelha representando o eixo Y.
+
+// criação de uma linha vermelha representando o eixo Y
 function eixoPositivoY() {
-    //create a blue LineBasicMaterial
-    const material = new THREE.LineBasicMaterial({color: 0XC70845});
-    const points = [];
-    points.push(new THREE.Vector3(0, 0, 1));
-    points.push(new THREE.Vector3(0, 107, 1));
+    const material = new THREE.LineBasicMaterial({ color: 0XC70845 });
+    const points = [new THREE.Vector3(0, 0, 1), new THREE.Vector3(0, 107, 1)];
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const line = new THREE.Line(geometry, material);
     line.name = "eixoY";
     scene.add(line);
-    renderer.render(scene, camera);
 }
+
+
 
 //detecção de objetos no cenario com um raio.
 function detectarObjeto() {
@@ -235,33 +226,26 @@ function gerarCubosAmarelos(x, y, z) {
 document.addEventListener('keydown', onkeypress, false);
 
 function onkeypress(event) {
-    //Função para aceitar os eventos da tecla para mudar a vista
-
     let key = event.which;
     switch (key) {
-        case 8:                                                                                    //Verifica Tecla "backspace"
-            limparV();                                                                                 //Altera para a vista alternativa
+        case 8: //Tecla "backspace"
+            limparV();
             break;
-
-        case 88:                                                                                    //Verifica Tecla "x"
+        case 88:  //Tecla "x"
             selecionarPixel(detectarObjeto())//Lê caixa de texto e desenha pontos
             break;
         case 67:  // Tecla "C"
             moverCameraTopView();
             break;
-
     }
 }
 // Mover a câmera para uma visão superior.
 function moverCameraTopView() {
     controls.enabled = false;  // Desabilitar o controle durante a animação
-
     cameraAnimationStartTime = performance.now();
-
     function animateCamera() {
         const currentTime = performance.now();
         const elapsed = currentTime - cameraAnimationStartTime;
-
         if (elapsed < cameraAnimationDuration) {
             const t = elapsed / cameraAnimationDuration;
             camera.position.lerpVectors(cameraStartPosition, cameraTopViewPosition, t);
@@ -270,10 +254,8 @@ function moverCameraTopView() {
             camera.position.copy(cameraTopViewPosition);
             controls.enabled = true;  // Animacao concluída, permitir controle novamente
         }
-
         renderer.render(scene, camera);
     }
-
     animateCamera();
 }
 // Limpa a visualização, remove pixels amarelos e linhas pretas.
@@ -296,5 +278,4 @@ function limparV() {
         }
     } while (obj);
     renderer.render(scene, camera);
-
 }

@@ -23,16 +23,13 @@ export function lineMP(pontoA, pontoB) {
     if (pontoA.x > pontoB.x) {
         [pontoA.x, pontoB.x, pontoA.y, pontoB.y, dx, dy] = [pontoB.x, pontoA.x, pontoB.y, pontoA.y, -dx, -dy];
     }
-
     let pontos = [];
     let y = pontoA.y;
     let incrementoE = 2 * dy;
     let incrementoNE = 2 * (dy - dx);
     let d = 2 * dy - dx;
-
     for (let x = pontoA.x; x <= pontoB.x; x++) {
         pontos.push({ x: x, y: y });
-
         if (d <= 0) {
             d += incrementoE;
         } else {
@@ -51,6 +48,5 @@ export function lineMP(pontoA, pontoB) {
         }
         return { x: p.x, y: p.y };
     });
-
     return pontos;
 }
