@@ -2,7 +2,7 @@ import * as THREE from 'https://unpkg.com/three@0.124.0/build/three.module.js';
 import {OrbitControls} from 'https://unpkg.com/three@0.124.0/examples/jsm/controls/OrbitControls.js'
 import {lineMP} from "../lineMP.mjs";
 
-
+//Declaração de Variáveis Globais:
 let scene = new THREE.Scene();
 let camera;
 let renderer;
@@ -16,25 +16,21 @@ let objPixel1 = null;
 let objPixel2 = null;
 let obj1Cor = null;
 let obj2Cor = null;
-
 let cameraStartPosition = new THREE.Vector3(0, 0, 120);
 let cameraTopViewPosition = new THREE.Vector3(0, 0, 300);
 let cameraAnimationDuration = 1000;  // Duração da animação em milissegundos
 let cameraAnimationStartTime = null;
-
-
 const mouse = new THREE.Vector3();
 
-
+//Função iniciar projeto:
 export function iniciarInterface() {
     setup();
     planos();
     animate();
     eixoPositivoX();
     eixoPositivoY();
-
 }
-
+//Função responsavel pela configuração dos elementos
 function setup() {
     camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 1, 2000);
     renderer = new THREE.WebGLRenderer();
@@ -57,13 +53,13 @@ function setup() {
 
     raycaster = new THREE.Raycaster()
 }
-
+// Responsavel pel< atualização dos controlos e renderização da cena em um loop de animação.
 function animate() {
     controls.update();
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
-
+// criação de planos rosa escuro
 function desenharPlanoRosaEscuro(x, y, pos) {
     const geometry = new THREE.PlaneGeometry(5, 5);
     const material = new THREE.MeshBasicMaterial({color: 0xDDA0DD, side: THREE.DoubleSide});
@@ -74,7 +70,7 @@ function desenharPlanoRosaEscuro(x, y, pos) {
     plane.name = pos;
     scene.add(plane);
 }
-
+//criação de planos rosa claro
 function desenharPlanoRosaClaro(x, y, pos) {
     const geometry = new THREE.PlaneGeometry(5, 5);
     const material = new THREE.MeshBasicMaterial({color: 0xFF69B4, side: THREE.DoubleSide});
@@ -85,7 +81,7 @@ function desenharPlanoRosaClaro(x, y, pos) {
     plane.name = pos;
     scene.add(plane);
 }
-
+//desenho dos planos
 function planos() {
     for (let y = -105, a = 0, py = -21; a < 43; a++, y = y + 5, py++) {
         for (let i = -105, e = 0, px = -21; e < 43; e++, i = i + 5, px++) {
@@ -97,14 +93,13 @@ function planos() {
         }
     }
 }
-
+//criação de uma linha azul representando o eixo X
 function eixoPositivoX() {
     //create a blue LineBasicMaterial
     const material = new THREE.LineBasicMaterial({color: 0x242291});
     const points = [];
     points.push(new THREE.Vector3(0, 0, 1));
     points.push(new THREE.Vector3(107, 0, 1));
-
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const line = new THREE.Line(geometry, material);
     line.name = "eixoX"
@@ -112,14 +107,13 @@ function eixoPositivoX() {
     renderer.render(scene, camera);
 
 }
-
+//criação de uma linha vermelha representando o eixo Y.
 function eixoPositivoY() {
     //create a blue LineBasicMaterial
     const material = new THREE.LineBasicMaterial({color: 0XC70845});
     const points = [];
     points.push(new THREE.Vector3(0, 0, 1));
     points.push(new THREE.Vector3(0, 107, 1));
-
     const geometry = new THREE.BufferGeometry().setFromPoints(points);
     const line = new THREE.Line(geometry, material);
     line.name = "eixoY";
@@ -127,6 +121,7 @@ function eixoPositivoY() {
     renderer.render(scene, camera);
 }
 
+//detecção de objetos no cenario com um raio.
 function detectarObjeto() {
     // update the picking ray with the camera and mouse position
     raycaster.setFromCamera(mouse, camera);
@@ -139,10 +134,9 @@ function detectarObjeto() {
             return objeto;
         }
     }
-    //renderer.render( scene, camera );
     return null;
 }
-
+// Lógica para selecionar pixels no cenario.
 function selecionarPixel(objeto) {
 
     let coord = objeto.name.split(",");
@@ -172,6 +166,7 @@ function selecionarPixel(objeto) {
     }
 }
 
+//  desenha uma linha preta e ladrilhos amarelos semi-transparentes.
 function desenharLinha() {
     let pontosp = lineMP(pixel1, pixel2);
     // Criar a linha exata preta
@@ -198,9 +193,8 @@ function imprimirNome(objeto) {
         ultimoPixel = objeto.name;
     }
 }
-
+//Event Listeners para Mouse e Teclado:
 window.addEventListener('mousemove', onMouseMove, false);
-
 function onMouseMove(event) {
     let objeto = detectarObjeto();
     if (objeto) {
@@ -258,7 +252,7 @@ function onkeypress(event) {
 
     }
 }
-
+// Mover a câmera para uma visão superior.
 function moverCameraTopView() {
     controls.enabled = false;  // Desabilitar o controle durante a animação
 
@@ -282,7 +276,7 @@ function moverCameraTopView() {
 
     animateCamera();
 }
-
+// Limpa a visualização, remove pixels amarelos e linhas pretas.
 function limparV() {
     let obj;
     do {
@@ -302,6 +296,5 @@ function limparV() {
         }
     } while (obj);
     renderer.render(scene, camera);
-
 
 }
